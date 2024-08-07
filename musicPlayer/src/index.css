@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.9); /* Adjust the color and opacity as needed */
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+#bottom-input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  cursor: pointer;
+  outline: none;
+  border-radius: 15px;
+  height: 20px;
+  height: 6px;
+  border: 1px solid white;
+  background: black;
+}
+input#bottom-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 30px;
+  width: 30px;
+  background: transparent;
+  background-image: url('/neffex-white.svg');
+  background-size: cover;
+  border-radius: 50%;
+  transition: 0.2s ease-in-out;
+  transform: rotateZ(var(--thumb-rotate, 0deg));
+}
+
+input#bottom-input::-moz-range-thumb {
+  height: 30px;
+  width: 30px;
+  background: transparent;
+  background-image: url('./neffex-white.svg');
+  background-size: cover;
+  border-radius: 50%;
+  transition: 0.2s ease-in-out;
+  transform: rotateZ(var(--thumb-rotate, 0deg));
+}
+
+input#bottom-input::-ms-thumb {
+  height: 30px;
+  width: 30px;
+  background: transparent;
+  background-image: url('./neffex-white.svg');
+  background-size: cover;
+  border-radius: 50%;
+  transition: 0.2s ease-in-out;
+  transform: rotateZ(var(--thumb-rotate, 0deg));
+}
+
+.glowing-border {
+  box-shadow: 0 3px 5px rgba(255, 255, 255, 0.9);
+  border: 1px solid white;
+}
