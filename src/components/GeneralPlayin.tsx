@@ -16,7 +16,7 @@ export default function GeneralPlaying() {
   }, []);
 
   return (
-    <div className="canvas w-9/12 h-full overflow-auto">
+    <div className="canvas w-9/12 h-full overflow-auto no-scrollbar">
       <PlayingInfo />
       <PlayingControls />
       <div ref={scrollingRef}></div>

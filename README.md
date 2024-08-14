@@ -9,8 +9,6 @@ Download the code, then "run npm i"
 
 then you can run "npm run dev"
 
-## Issues & Disclaimer:
+## Live version:
 
-1. SVG does not show in the preview mode - that reffers to the song's progress bar.
-2. Sometimes there are bugs with the duration, but I cannot replicate them.
-3. Potential design falure. Instead of having one <audio> element and change it's SRC dynamically, I opted to have a separate audioRef for each song, which made it easy to have Play/Pause triggered by interacting with the song element, but as the controls pannel grew - It would have been easier to have thaat audio element in the controls pannel.
+https://music-app-2.onrender.com/

@@ -3,20 +3,22 @@ import TopBar from './TopBar';
 import RightMenu from './RightMenu';
 import GeneralPlaying from './GeneralPlayin';
 import { Color } from 'color-thief-react';
-import { neffexStore } from '../store';
 import { useState } from 'react';
+import { useAudioStore } from '../stores/useAudioStore';
+import { useKeyboardControls } from '../hooks/useKeyBoard';
 
 export default function MainScreen() {
-  const currentSong = neffexStore((state) => state.currentSong);
+  const currentSong = useAudioStore((state) => state.currentSong);
+  useKeyboardControls();
 
   const [bgColor, setBgColor] = useState(
-    'linear-gradient(to right, blue, black)'
+    'linear-gradient(to right, white, white)'
   );
   return (
     <>
       {currentSong && (
         <Color
-          src={typeof currentSong.cover === 'string' ? currentSong.cover : ''}
+          src={currentSong.cover || ''}
           crossOrigin="anonymous"
           format="rgbArray">
           {({ data, loading, error }) => {

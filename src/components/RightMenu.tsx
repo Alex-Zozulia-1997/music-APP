@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { neffexStore } from '../store';
+import { useSongsStore } from '../stores/useSongsListStore';
 import TrendingItem from './TrendingItem';
 
 export default function RightMenu() {
-  const favList = neffexStore((state) => state.favList);
-  const addFavList = neffexStore((state) => state.addFavList);
-  const initialSongs = neffexStore((state) => state.initialSongs);
+  const favList = useSongsStore((state) => state.favList);
+  const addFavList = useSongsStore((state) => state.actions.addFavList);
+  const initialSongs = useSongsStore((state) => state.initialSongs);
 
   useEffect(() => {
     if (initialSongs.length > 0) {
@@ -18,7 +18,7 @@ export default function RightMenu() {
       <h1 className="text-4xl pt-5 pb-5 text-white text-center">
         &#x1f525;PICKS&#x1f525;
       </h1>
-      <div className="flex flex-col items-center h-11/12 gap-5 overflow-scroll">
+      <div className=" no-scrollbar flex flex-col items-center h-11/12 gap-5 overflow-scroll">
         {favList.map((song) => (
           <TrendingItem
             key={song.id}

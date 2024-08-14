@@ -1,41 +1,20 @@
-import { neffexStore } from '../store';
-
-import {
-  useState,
-  ChangeEvent,
-  MouseEvent,
-  TouchEvent,
-  useEffect,
-} from 'react';
+import { useState, ChangeEvent, useEffect } from 'react';
+import { useAudioStore } from '../stores/useAudioStore';
 
 export default function ProgressBar() {
-  const currentSongTime = neffexStore((state) => state.currentSongTime);
-  const duration = neffexStore((state) => state.currentSongDuration);
+  const currentSongTime = useAudioStore((state) => state.currentSongTime);
+  const duration = useAudioStore((state) => state.currentSongDuration);
   // console.log('duration', duration);
-  const setCurrentSongTime = neffexStore((state) => state.setCurrentSongTime);
-  const newTime = neffexStore((state) => state.newTime);
-  const setNewTime = neffexStore((state) => state.setNewTime);
-
-  const [isInteracting, setIsInteracting] = useState(false);
-
-  const handleMouseDown = () => {
-    setIsInteracting(true);
-  };
-
-  const handleMouseUp = (
-    e: MouseEvent<HTMLInputElement> | TouchEvent<HTMLInputElement>
-  ) => {
-    setIsInteracting(false);
-    handleProgressChange(e as unknown as ChangeEvent<HTMLInputElement>);
-  };
+  const setCurrentSongTime = useAudioStore(
+    (state) => state.actions.setCurrentSongTime
+  );
+  const newTime = useAudioStore((state) => state.newTime);
+  const setNewTime = useAudioStore((state) => state.actions.setNewTime);
 
   const handleProgressChange = (e: ChangeEvent<HTMLInputElement>) => {
     setNewTime(Number(e.target.value));
     setCurrentSongTime(newTime);
   };
-  // useEffect(() => {
-  //   console.log(newTime);
-  // }, [newTime]);
 
   const userFriendlyDuration = `${Math.floor(duration / 60)}:${Math.floor(
     duration % 60
@@ -54,14 +33,8 @@ export default function ProgressBar() {
   return (
     <>
       <input
-        onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        onTouchStart={handleMouseDown}
-        onTouchEnd={handleMouseUp}
         onChange={(e) => {
-          if (isInteracting) {
-            handleProgressChange(e);
-          }
+          handleProgressChange(e);
         }}
         id="bottom-input"
         type="range"

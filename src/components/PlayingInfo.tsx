@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { neffexStore } from '../store';
+import { useAudioStore } from '../stores/useAudioStore';
 
 export default function PlayingInfo() {
-  const currentSong = neffexStore((state) => state.currentSong);
+  const currentSong = useAudioStore((state) => state.currentSong);
   useEffect(() => {
     console.log('currentSong', currentSong);
   }, [currentSong]);

@@ -1,23 +1,24 @@
 import { ChangeEvent, useState } from 'react';
 import ProgressBar from './ProgressBar';
-import { useAudio } from '../useAudio';
-import { neffexStore } from '../store';
+import { useAudio } from '../hooks/useAudio';
+import { useSongsStore } from '../stores/useSongsListStore';
+import { useAudioStore } from '../stores/useAudioStore';
+import { useProgressBar } from '../hooks/useProgressBar';
 
 export default function PlayingControls() {
   const { audioRef, handleNext, handleBack } = useAudio();
+  useProgressBar(audioRef);
 
-  // const initialSongs = neffexStore((state) => state.initialSongs);
-  const currentSong = neffexStore((state) => state.currentSong);
-  // const setSong = neffexStore((state) => state.setCurrentSong);
-  const togglePlayPause = neffexStore((state) => state.togglePlayPause);
-  const isCurrentSongPlaying = neffexStore(
+  const currentSong = useAudioStore((state) => state.currentSong);
+  const togglePlayPause = useAudioStore(
+    (state) => state.actions.togglePlayPause
+  );
+  const isCurrentSongPlaying = useAudioStore(
     (state) => state.isCurrentSongPlaying
   );
-  const addFavorite = neffexStore((state) => state.addFavList);
-  const isCurrentSongLooping = neffexStore((state) => state.isCurrentLooping);
-  const toggleLooping = neffexStore((state) => state.toggleLooping);
-  const loop = neffexStore((state) => state.isCurrentLooping);
-  // const setNewTime = neffexStore((state) => state.setNewTime);
+  const addFavorite = useSongsStore((state) => state.actions.addFavList);
+  const isCurrentSongLooping = useAudioStore((state) => state.isCurrentLooping);
+  const toggleLooping = useAudioStore((state) => state.actions.toggleLooping);
 
   const [volume, setVolume] = useState(0.5);
   const [showingVolumeBar, setShowingVolumeBar] = useState(false);
@@ -30,22 +31,6 @@ export default function PlayingControls() {
     }
   };
 
-  // const handleBack = () => {
-  //   if (!isCurrentSongPlaying) togglePlayPause();
-  //   if (!currentSong) return;
-  //   if (currentSong.id === 1) {
-  //     const newSong = initialSongs.filter(
-  //       (song) => song.id === initialSongs.length
-  //     )[0];
-  //     setSong(newSong);
-  //     return;
-  //   }
-  //   const newSong = initialSongs.filter(
-  //     (song) => song.id === currentSong.id - 1
-  //   )[0];
-  //   setSong(newSong);
-  // };
-
   const handlePlayPause = () => {
     togglePlayPause();
   };
@@ -56,29 +41,10 @@ export default function PlayingControls() {
     }
   };
 
-  // const handleNext = () => {
-  //   if (currentSong === null) return;
-  //   if (loop) return;
-  //   if (!isCurrentSongPlaying) togglePlayPause();
-
-  //   if (!currentSong) return;
-  //   if (currentSong.id === initialSongs.length) {
-  //     const newSong = initialSongs.filter((song) => song.id === 1)[0];
-  //     setSong(newSong);
-  //     setNewTime(0);
-  //     return;
-  //   }
-  //   const newSong = initialSongs.filter(
-  //     (song) => song.id === currentSong.id + 1
-  //   )[0];
-  //   setSong(newSong);
-  //   setNewTime(0);
-  // };
-
   return (
     <div className="w-full p-2 text-white" style={{ height: '25%' }}>
       <audio
-        loop={loop}
+        loop={isCurrentSongLooping}
         ref={audioRef}
         src={`./audio/${currentSong?.name}.wav`}
         autoPlay={isCurrentSongPlaying}></audio>
@@ -94,7 +60,7 @@ export default function PlayingControls() {
           </div>
           <div className="heart text-red-lighter" onClick={handleAddToFavs}>
             <svg
-              className="w-6 h-6"
+              className="w-6 h-6 cursor-pointer"
               fill="currentColor"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20">
@@ -127,7 +93,7 @@ export default function PlayingControls() {
               }}
             />
             <svg
-              className="w-8 h-8"
+              className="w-8 h-8 cursor-pointer"
               fill="currentColor"
               version="1.1"
               id="Icons"
@@ -157,7 +123,7 @@ export default function PlayingControls() {
 
           <div className="left text-grey-darker" onClick={handleBack}>
             <svg
-              className="w-8 h-8"
+              className="w-8 h-8 cursor-pointer"
               fill="currentColor"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20">
@@ -165,7 +131,7 @@ export default function PlayingControls() {
             </svg>
           </div>
           <div
-            className="play text-white p-7 rounded-full bg-red-light shadow-lg"
+            className=" cursor-pointer play text-white p-7 rounded-full bg-red-light shadow-lg"
             onClick={handlePlayPause}>
             {!isCurrentSongPlaying ? (
               <svg
@@ -176,12 +142,12 @@ export default function PlayingControls() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                className="w-8 h-8">
+                className="w-8 h-8 cursor-pointer">
                 <polygon points="5 3 19 12 5 21 5 3" />
               </svg>
             ) : (
               <svg
-                className="w-8 h-8"
+                className="w-8 h-8 cursor-pointer"
                 fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20">
@@ -191,7 +157,7 @@ export default function PlayingControls() {
           </div>
           <div className="right text-grey-darker" onClick={handleNext}>
             <svg
-              className="w-8 h-8"
+              className="w-8 h-8 cursor-pointer"
               fill="currentColor"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20">
@@ -201,7 +167,7 @@ export default function PlayingControls() {
           <div className="loop text-grey-darker" onClick={toggleLooping}>
             {!isCurrentSongLooping ? (
               <svg
-                className="w-8 h-8"
+                className="w-8 h-8 cursor-pointer"
                 fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20">
@@ -209,7 +175,7 @@ export default function PlayingControls() {
               </svg>
             ) : (
               <svg
-                className="w-8 h-8"
+                className="w-8 h-8 cursor-pointer"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
                 fill="currentColor">
