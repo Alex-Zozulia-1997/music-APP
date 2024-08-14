@@ -18,7 +18,7 @@ RUN npm run build
 
 # Step 7: Serve the app using a simple static server
 RUN npm install -g serve
-CMD ["serve", "-s", "build"]
+CMD ["serve", "-s", "dist"]
 
 # Expose the port the app runs on
 EXPOSE 3000
