@@ -9,8 +9,8 @@ export default function PlayingInfo() {
 
   return (
     <div
-      className="playing-info w-full h-9/12 flex flex-col justify-center items-center p-4 gap-4 "
-      style={{ height: '75%' }}>
+      className="playing-info w-full  flex flex-col justify-center items-center p-4 gap-4 "
+      style={{ height: '74%' }}>
       {currentSong && (
         <>
           <img
